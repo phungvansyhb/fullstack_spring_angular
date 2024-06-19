@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import sy.pv.memefamousperson.documents.PeopleDocument;
 import sy.pv.memefamousperson.dto.request.PeopleRequestDto;
+import sy.pv.memefamousperson.dto.response.PeopleListResponseDto;
 import sy.pv.memefamousperson.services.PeopleService;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class PeopleController {
     }
 
     @GetMapping
-    List<PeopleDocument> GetAllPeople(){
+    List<PeopleListResponseDto> GetAllPeople(){
         return peopleService.getAllPeople();
     }
 

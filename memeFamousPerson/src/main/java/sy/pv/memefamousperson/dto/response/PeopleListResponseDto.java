@@ -1,4 +1,4 @@
-package sy.pv.memefamousperson.dto.request;
+package sy.pv.memefamousperson.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,15 +7,12 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PeopleRequestDto {
+public class PeopleListResponseDto {
+    String id;
     String username;
     String aka;
-    String address;
-    LocalDate birthday;
-    String description;
 }

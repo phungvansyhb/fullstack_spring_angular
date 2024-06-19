@@ -6,6 +6,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import sy.pv.memefamousperson.documents.PeopleDocument;
 import sy.pv.memefamousperson.dto.request.PeopleRequestDto;
+import sy.pv.memefamousperson.dto.response.PeopleListResponseDto;
 import sy.pv.memefamousperson.repositories.PeopleRepository;
 
 import java.util.List;
@@ -26,8 +27,12 @@ public class PeopleService {
         }
     }
 
-    public List<PeopleDocument> getAllPeople() {
-        return peopleRepository.findAll();
+    public List<PeopleListResponseDto> getAllPeople() {
+        return peopleRepository.findAll().stream().map(people -> {
+            PeopleListResponseDto peopleListResponseDto = new PeopleListResponseDto();
+            BeanUtils.copyProperties(people, peopleListResponseDto);
+            return peopleListResponseDto;
+        }).toList();
 
     }
 

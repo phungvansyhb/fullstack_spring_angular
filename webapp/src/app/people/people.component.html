@@ -1,1 +1,5 @@
-<p>people works!</p>
+<div class="grid grid-cols-4 gap-8 ">
+  @for (people of listPeople; track people.username){
+    <app-people-detail [people]="people"/>
+  }
+</div>

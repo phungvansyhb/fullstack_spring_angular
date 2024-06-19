@@ -18,4 +18,5 @@ public class PeopleDocument {
     String aka;
     String address;
     LocalDate birthday;
+    String description;
 }
