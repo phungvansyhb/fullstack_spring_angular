@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import sy.pv.memefamousperson.documents.PeopleDocument;
 import sy.pv.memefamousperson.dto.request.PeopleRequestDto;
 import sy.pv.memefamousperson.dto.response.PeopleListResponseDto;
+import sy.pv.memefamousperson.dto.response.PeopleResponseDto;
 import sy.pv.memefamousperson.repositories.PeopleRepository;
 
 import java.util.List;
@@ -36,15 +37,20 @@ public class PeopleService {
 
     }
 
-    public PeopleDocument getDetailPeopleDocument(String id){
-        return peopleRepository.findById(id).orElseThrow();
+    public PeopleResponseDto getDetailPeopleDocument(String id) {
+        return peopleRepository.findById(id).map(peopleDocument -> {
+            PeopleResponseDto peopleDocument1 = new PeopleResponseDto();
+            BeanUtils.copyProperties(peopleDocument, peopleDocument1);
+            peopleDocument1.setBirthday(peopleDocument.getBirthday().toString());
+            return peopleDocument1;
+        }).orElseThrow();
     }
 
-    public void deletePeople(String id){
+    public void deletePeople(String id) {
         peopleRepository.deleteById(id);
     }
 
-    public void updatePeople(PeopleRequestDto people , String id){
+    public void updatePeople(PeopleRequestDto people, String id) {
         PeopleDocument peopleDocument = peopleRepository.findById(id).orElseThrow();
         BeanUtils.copyProperties(people, peopleDocument);
         peopleRepository.save(peopleDocument);

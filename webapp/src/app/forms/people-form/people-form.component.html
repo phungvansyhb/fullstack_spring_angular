@@ -1,0 +1,22 @@
+<div class="flex flex-col gap-4 ">
+  <label for="username" class="flex flex-col  items-start">
+    <b>Username:</b>
+    <input class="border rounded p-2 w-full" id="username" type="text" [(ngModel)]="formData.username" />
+  </label>
+  <label for="username" class="flex flex-col  items-start">
+    <b>Aka:</b>
+    <input class="border rounded p-2 w-full" id="aka" type="text" [(ngModel)]="formData.aka" />
+  </label>
+  <label for="birthday" class="flex flex-col  items-start">
+    <b>Birthday:</b>
+    <input class="border rounded p-2 w-full" id="birthday" type="date" [(ngModel)]="formData.birthday" />
+  </label>
+  <label for="address" class="flex flex-col  items-start">
+    <b>Address:</b>
+    <input class="border rounded p-2 w-full" id="address" type="text" [(ngModel)]="formData.address" />
+  </label>
+  <label for="description" class="flex flex-col  items-start">
+    <b>Description:</b>
+    <textarea class="border rounded p-2 w-full" id="description"  [(ngModel)]="formData.description" rows="10"></textarea>
+  </label>
+</div>

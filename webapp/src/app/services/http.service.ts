@@ -13,13 +13,13 @@ export class HttpService {
   getData<T>(endpoint: string) {
     return this.http.get<T>(this.baseUrl + endpoint);
   }
-
+  deleteData<T>(endpoint: string) {
+    return this.http.delete<T>(this.baseUrl + endpoint);
+  }
   postData<T>(endpoint: string, body: any) {
-    this.http.post<T>(this.baseUrl + endpoint, body)
-      .subscribe(response => {
-        // Handle successful response with the 'response'
-      }, error => {
-        // Handle error scenario
-      });
+    return this.http.post<T>(this.baseUrl + endpoint, body)
+  }
+  editData<T>(endpoint: string, body: any) {
+    return this.http.put<T>(this.baseUrl + endpoint, body)
   }
 }

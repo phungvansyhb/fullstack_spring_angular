@@ -1,7 +1,10 @@
-<main class="main w-full">
+<main class="w-full">
   <div class="container mx-auto">
-    <app-people></app-people>
+    <nav class="flex gap-4 w-full justify-center">
+      <a routerLink="/people">People Page</a>
+      |
+      <a routerLink="/">Home Page</a>
+    </nav>
   </div>
+  <router-outlet/>
 </main>
-
-<router-outlet/>
