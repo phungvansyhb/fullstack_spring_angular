@@ -41,7 +41,9 @@ public class PeopleService {
         return peopleRepository.findById(id).map(peopleDocument -> {
             PeopleResponseDto peopleDocument1 = new PeopleResponseDto();
             BeanUtils.copyProperties(peopleDocument, peopleDocument1);
-            peopleDocument1.setBirthday(peopleDocument.getBirthday().toString());
+            if(peopleDocument.getBirthday() != null){
+                peopleDocument1.setBirthday(peopleDocument.getBirthday().toString());
+            }
             return peopleDocument1;
         }).orElseThrow();
     }

@@ -1,5 +1,15 @@
 <div class="grid grid-cols-4 gap-8 my-8">
   @for (people of listPeople; track people.username){
-    <app-people-detail [people]="people"/>
+  <app-people-detail [people]="people" [refreshList]="refreshData"/>
   }
 </div>
+<div class="w-full flex justify-center" (click)="toggleCreateForm()">
+  <button nz-button nzType="primary">Create new people</button>
+</div>
+<nz-modal [(nzVisible)]="showCreateForm" nzTitle="Create new people" nzCentered (nzOnCancel)="toggleCreateForm()" [nzFooter]="modalfooter">
+  <ng-container *nzModalContent>
+    <people-form [handleOk]="handleCreatePeople"/>
+  </ng-container>
+</nz-modal>
+
+<ng-template #modalfooter></ng-template>

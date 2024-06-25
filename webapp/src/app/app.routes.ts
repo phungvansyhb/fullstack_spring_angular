@@ -4,9 +4,10 @@ import {CategoryComponent} from "./category/category.component";
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'home',
     title : "Home page",
-    component: CategoryComponent
+    component: CategoryComponent,
+
   },
   {
     path: 'people',

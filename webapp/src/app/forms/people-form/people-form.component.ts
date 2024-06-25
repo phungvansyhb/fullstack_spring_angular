@@ -1,38 +1,35 @@
-import {Component, inject, Input} from '@angular/core';
-import {People} from "../../models/people.model";
-import {FormsModule} from "@angular/forms";
-import {HttpService} from "../../services/http.service";
-import {NzMessageService} from "ng-zorro-antd/message";
+import { Component, Input } from '@angular/core';
+import { FormsModule } from "@angular/forms";
+import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { People } from "../../models/people.model";
 
 @Component({
   selector: 'people-form',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, NzButtonComponent],
   templateUrl: './people-form.component.html',
 })
 
 
 export class PeopleFormComponent {
   @Input() initValue: People | undefined = undefined
-  formData : People  = {
-    id : '',
-    username : '',
-    aka : '',
-    address : '',
-    birthday : '',
-    description : ''
+  @Input() handleOk: (data: People) => void = () => { }
+
+  formData: People = {
+    id: '',
+    username: '',
+    aka: '',
+    address: '',
+    birthday: '',
+    description: ''
   }
-  constructor(private httpService: HttpService , private message: NzMessageService) {}
-
-  handleSubmit(data  : People){
-    this.httpService.editData<People>('/api/people/' + this.formData.id, data).subscribe({
-      next: () => {
-        this.message.success("Cap nhap people thanh cong")
-
-      },
-      error : ()=>{
-        this.message.error("Cap nhap people that bai")
-      }
-    })
+  ngOnInit() {
+    console.log('fomr init ', this.initValue)
+    if (this.initValue) {
+      this.formData = this.initValue
+    }
+  }
+  handleSubmit = () => {
+    this.handleOk(this.formData)
   }
 }

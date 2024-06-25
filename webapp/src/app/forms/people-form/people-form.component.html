@@ -17,6 +17,9 @@
   </label>
   <label for="description" class="flex flex-col  items-start">
     <b>Description:</b>
-    <textarea class="border rounded p-2 w-full" id="description"  [(ngModel)]="formData.description" rows="10"></textarea>
+    <textarea class="border rounded p-2 w-full" id="description"  [(ngModel)]="formData.description" rows="5"></textarea>
   </label>
+  <div class="flex justify-end">
+    <button nz-button nzType="primary" (click)="handleSubmit()">Save</button>
+  </div>
 </div>
