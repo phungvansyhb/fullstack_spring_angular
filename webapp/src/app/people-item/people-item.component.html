@@ -1,0 +1,38 @@
+<div class="border rounded p-6">
+
+  <div class="overflow-hidden border relative w-full h-[320px]">
+    <img ngSrc="https://i.pinimg.com/736x/92/93/ac/9293ac678b2aad56b2f5b18e270a04f6.jpg"
+         class="object-cover" alt="avatar"
+         width="240" height="240" priority="1"/>
+    <button class="absolute top-2 right-0 z-10 " nz-popover [nzPopoverContent]="contentTemplate"
+            nzPopoverPlacement="bottom">
+      <span nz-icon nzType="more" nzTheme="outline" nzRotate="90" class="w-8 h-8 font-bold"></span>
+    </button>
+    <ng-template #contentTemplate>
+      <div class="gap-2 flex cursor-pointer text-red-500" (click)="handleDelete()">
+        <span nz-icon nzType="delete"></span>
+        Xoá
+      </div>
+      <div class="gap-2 flex cursor-pointer text-blue-500" (click)="toggleShowForm()">
+        <span nz-icon nzType="edit"></span>
+        Cập nhật
+      </div>
+    </ng-template>
+  </div>
+  <div class="flex justify-between items-end pt-4 ">
+    <div class="font-semibold text-xl ">{{ people?.username }}({{ people?.aka }})</div>
+    <button class="underline text-blue-500 font-semibold cursor-pointer" (click)="navigateDetail()">
+      Chi tiết
+    </button>
+  </div>
+  <nz-modal [(nzVisible)]="showForm" nzTitle="Cập nhật thông tin people" nzCentered (nzOnCancel)="toggleShowForm()" [nzFooter]="modalFooter">
+    <ng-container *nzModalContent>
+      <people-form [initValue]="detailData" [handleOk]="handleUpdatePeople"/>
+    </ng-container>
+  </nz-modal>
+
+  <ng-template #modalFooter>
+
+  </ng-template>
+
+</div>
