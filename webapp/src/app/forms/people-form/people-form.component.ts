@@ -21,7 +21,8 @@ export class PeopleFormComponent {
     aka: '',
     address: '',
     birthday: '',
-    description: ''
+    description: '',
+    avatar : ''
   }
   ngOnInit() {
     console.log('fomr init ', this.initValue)

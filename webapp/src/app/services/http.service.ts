@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
 @Injectable({
-  
+
   providedIn: 'root'
 })
 export class HttpService {
@@ -11,8 +11,8 @@ export class HttpService {
   constructor(private http: HttpClient) {
   }
 
-  getData<T>(endpoint: string) {
-    return this.http.get<T>(this.baseUrl + endpoint);
+  getData<T>(endpoint: string , params? : Record<string, any>) {
+    return this.http.get<T>(this.baseUrl + endpoint , {params : params});
   }
   deleteData<T>(endpoint: string) {
     return this.http.delete<T>(this.baseUrl + endpoint);

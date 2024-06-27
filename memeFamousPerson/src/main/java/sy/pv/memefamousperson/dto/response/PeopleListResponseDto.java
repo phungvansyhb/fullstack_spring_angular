@@ -15,4 +15,5 @@ public class PeopleListResponseDto {
     String id;
     String username;
     String aka;
+    String avatar;
 }

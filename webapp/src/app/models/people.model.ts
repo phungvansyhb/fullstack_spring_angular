@@ -5,6 +5,7 @@ export type People ={
   address : string ,
   birthday : string
   description : string
+  avatar : string
 }
 
 export type PeopleList = Omit<People, 'description'|'address'|'birthday'>[]

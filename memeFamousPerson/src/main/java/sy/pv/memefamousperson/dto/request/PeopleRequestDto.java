@@ -18,4 +18,5 @@ public class PeopleRequestDto {
     String address;
     LocalDate birthday;
     String description;
+    String avatar;
 }

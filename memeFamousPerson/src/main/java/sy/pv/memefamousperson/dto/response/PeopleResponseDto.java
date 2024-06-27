@@ -20,4 +20,5 @@ public class PeopleResponseDto {
     String address;
     String birthday;
     String description;
+    String avatar;
 }
