@@ -41,6 +41,7 @@ export class PeopleComponent implements OnInit {
     this.httpService.getData<PeopleList>('/api/people', {page: this.page - 1, size: this.size}).subscribe(data => {
       this.listPeople = data.content
       this.totalElements = data.totalElements
+      console.log(data.content)
     })
   }
 
@@ -76,7 +77,7 @@ export class PeopleComponent implements OnInit {
     this.showCreateForm = !this.showCreateForm
   }
 
-  handleCreatePeople = (data: People) => {
+  handleCreatePeople = (data: Partial<People>) => {
     this.httpService.postData("/api/people", data).subscribe(
       {
         next: () => {

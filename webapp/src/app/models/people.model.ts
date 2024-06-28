@@ -8,6 +8,8 @@ export type People ={
   birthday : string
   description : string
   avatar : string
+  like : number
+  dislike : number
 }
 
 export type PeopleList = PaginationList<Omit<People, 'description'|'address'|'birthday'>>

@@ -27,16 +27,17 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
 public class PeopleService {
     private static final String HASH_KEY = "PEOPLE_REACTION";
-    private  PeopleRepository peopleRepository;
-    private  HashOperations<Object, String, ReactionPeopleRecord> hashOperations;
+    private PeopleRepository peopleRepository;
+    private HashOperations<Object, String, ReactionPeopleRecord> hashOperations;
 
     @Autowired
-    public PeopleService( PeopleRepository peopleRepository, RedisTemplate<Object, Object> redisTemplate ) {
+    public PeopleService(PeopleRepository peopleRepository, RedisTemplate<Object, Object> redisTemplate) {
         this.hashOperations = redisTemplate.opsForHash();
         this.peopleRepository = peopleRepository;
     }
@@ -56,6 +57,11 @@ public class PeopleService {
         List<PeopleListResponseDto> content = result.getContent().stream().map(item -> {
             PeopleListResponseDto peopleDocument = new PeopleListResponseDto();
             BeanUtils.copyProperties(item, peopleDocument);
+            ReactionPeopleRecord reaction = hashOperations.get(HASH_KEY, item.getId());
+            if (reaction != null) {
+                peopleDocument.setLike(reaction.getLike());
+                peopleDocument.setDisLike(reaction.getDislike());
+            }
             return peopleDocument;
         }).toList();
         return new PageImpl<>(content, result.getPageable(), result.getTotalElements());
@@ -106,9 +112,25 @@ public class PeopleService {
         peopleRepository.saveAll(peopleList);
     }
 
-    public ResponseEntity<String> reactPeople(ReactionEnum reaction, String id) {
+    public ResponseEntity<Map<String,String>> reactPeople(ReactionEnum reaction, String id) {
         peopleRepository.findById(id).orElseThrow(() -> new Error("People doesn't exist"));
-        hashOperations.put(HASH_KEY, id, new ReactionPeopleRecord(reaction, LocalDate.now()));
-        return new ResponseEntity<>("Success", HttpStatus.OK);
+        ReactionPeopleRecord reactionPeopleRecord = new ReactionPeopleRecord();
+        ReactionPeopleRecord cachedReactionPeopleRecord = hashOperations.get(HASH_KEY, id);
+
+        if (cachedReactionPeopleRecord != null) {
+            reactionPeopleRecord = cachedReactionPeopleRecord;
+        } else {
+            reactionPeopleRecord.setLike(0L);
+            reactionPeopleRecord.setDislike(0L);
+            reactionPeopleRecord.setTimeStamp(LocalDate.now().toString());
+        }
+
+        if (reaction == ReactionEnum.LIKE) {
+            reactionPeopleRecord.setLike(reactionPeopleRecord.getLike() + 1);
+        } else {
+            reactionPeopleRecord.setDislike(reactionPeopleRecord.getDislike() + 1);
+        }
+        hashOperations.put(HASH_KEY, id, reactionPeopleRecord);
+        return new ResponseEntity<>(Map.of("message", "success"), HttpStatus.OK);
     }
 }

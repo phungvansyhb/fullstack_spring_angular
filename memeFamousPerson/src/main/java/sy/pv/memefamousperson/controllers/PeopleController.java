@@ -16,6 +16,7 @@ import sy.pv.memefamousperson.services.PeopleService;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/people")
@@ -56,7 +57,7 @@ public class PeopleController {
 
     @PutMapping("/react/{peopleId}")
         /* because use form-data we need to use @RequestParam */
-    ResponseEntity<String> reactPeople(@RequestBody ReactRequestDto records, @PathVariable String peopleId) {
+    ResponseEntity<Map<String, String>> reactPeople(@RequestBody ReactRequestDto records, @PathVariable String peopleId) {
         return peopleService.reactPeople(records.getReactType(), peopleId);
     }
 }

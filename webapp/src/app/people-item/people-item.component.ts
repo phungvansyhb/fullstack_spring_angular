@@ -75,7 +75,7 @@ export class PeopleItemComponent {
     })
     this.showForm = !this.showForm
   }
-  handleUpdatePeople = (data: People) => {
+  handleUpdatePeople = (data: Partial<People>) => {
     this.httpService.editData("/api/people/" + this.detailData?.id, data).subscribe(
       {
         next: () => {

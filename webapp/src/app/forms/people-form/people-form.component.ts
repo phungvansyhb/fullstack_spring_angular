@@ -13,16 +13,16 @@ import { People } from "../../models/people.model";
 
 export class PeopleFormComponent {
   @Input() initValue: People | undefined = undefined
-  @Input() handleOk: (data: People) => void = () => { }
+  @Input() handleOk: (data: Partial<People>) => void = () => { }
 
-  formData: People = {
+  formData = {
     id: '',
     username: '',
     aka: '',
     address: '',
     birthday: '',
     description: '',
-    avatar : ''
+    avatar : '',
   }
   ngOnInit() {
     console.log('fomr init ', this.initValue)
