@@ -20,4 +20,6 @@ public class PeopleDocument {
     LocalDate birthday;
     String description;
     String avatar;
+    Long like;
+    Long disLike;
 }

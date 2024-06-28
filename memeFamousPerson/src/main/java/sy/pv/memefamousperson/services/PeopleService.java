@@ -5,24 +5,41 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import sy.pv.memefamousperson.documents.PeopleDocument;
+import sy.pv.memefamousperson.dto.ReactionEnum;
 import sy.pv.memefamousperson.dto.request.PeopleRequestDto;
+import sy.pv.memefamousperson.dto.request.ReactionPeopleRecord;
 import sy.pv.memefamousperson.dto.response.PeopleListResponseDto;
 import sy.pv.memefamousperson.dto.response.PeopleResponseDto;
 import sy.pv.memefamousperson.repositories.PeopleRepository;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class PeopleService {
+    private static final String HASH_KEY = "PEOPLE_REACTION";
+    private  PeopleRepository peopleRepository;
+    private  HashOperations<Object, String, ReactionPeopleRecord> hashOperations;
 
-    private final PeopleRepository peopleRepository;
+    @Autowired
+    public PeopleService( PeopleRepository peopleRepository, RedisTemplate<Object, Object> redisTemplate ) {
+        this.hashOperations = redisTemplate.opsForHash();
+        this.peopleRepository = peopleRepository;
+    }
 
     public void createPeople(PeopleRequestDto people) throws Exception {
         try {
@@ -34,13 +51,14 @@ public class PeopleService {
         }
     }
 
-    public List<PeopleListResponseDto> getAllPeople(Pageable pageable) {
-        return peopleRepository.findAll(pageable).stream().map(people -> {
-            PeopleListResponseDto peopleListResponseDto = new PeopleListResponseDto();
-            BeanUtils.copyProperties(people, peopleListResponseDto);
-            return peopleListResponseDto;
+    public Page<PeopleListResponseDto> getAllPeople(Pageable pageable) {
+        Page<PeopleDocument> result = peopleRepository.findAll(pageable);
+        List<PeopleListResponseDto> content = result.getContent().stream().map(item -> {
+            PeopleListResponseDto peopleDocument = new PeopleListResponseDto();
+            BeanUtils.copyProperties(item, peopleDocument);
+            return peopleDocument;
         }).toList();
-
+        return new PageImpl<>(content, result.getPageable(), result.getTotalElements());
     }
 
     public PeopleResponseDto getDetailPeopleDocument(String id) {
@@ -86,5 +104,11 @@ public class PeopleService {
             peopleList.add(people);
         }
         peopleRepository.saveAll(peopleList);
+    }
+
+    public ResponseEntity<String> reactPeople(ReactionEnum reaction, String id) {
+        peopleRepository.findById(id).orElseThrow(() -> new Error("People doesn't exist"));
+        hashOperations.put(HASH_KEY, id, new ReactionPeopleRecord(reaction, LocalDate.now()));
+        return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 }

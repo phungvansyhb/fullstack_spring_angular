@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -16,4 +14,6 @@ public class PeopleListResponseDto {
     String username;
     String aka;
     String avatar;
+    Long like ;
+    Long disLike ;
 }

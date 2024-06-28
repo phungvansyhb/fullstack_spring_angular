@@ -1,14 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { People, PeopleList } from "../models/people.model";
-import { HttpService } from "../services/http.service";
-import { NzIconDirective } from "ng-zorro-antd/icon";
-import { NzPopoverDirective } from "ng-zorro-antd/popover";
-import { NzMessageService } from "ng-zorro-antd/message";
-import { NzModalComponent, NzModalContentDirective, NzModalModule } from "ng-zorro-antd/modal";
-import { NzButtonComponent } from "ng-zorro-antd/button";
-import { NgOptimizedImage } from "@angular/common";
-import { FormsModule } from "@angular/forms";
-import { PeopleFormComponent } from "../forms/people-form/people-form.component";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {People, PeopleList} from "../models/people.model";
+import {HttpService} from "../services/http.service";
+import {NzIconDirective} from "ng-zorro-antd/icon";
+import {NzPopoverDirective} from "ng-zorro-antd/popover";
+import {NzMessageService} from "ng-zorro-antd/message";
+import {NzModalComponent, NzModalContentDirective, NzModalModule} from "ng-zorro-antd/modal";
+import {NzButtonComponent} from "ng-zorro-antd/button";
+import {NgOptimizedImage} from "@angular/common";
+import {FormsModule} from "@angular/forms";
+import {PeopleFormComponent} from "../forms/people-form/people-form.component";
 import {Router} from "@angular/router";
 
 @Component({
@@ -25,21 +25,33 @@ import {Router} from "@angular/router";
     FormsModule,
     PeopleFormComponent
   ],
-  styles: [
-  ],
+  styles: [],
   templateUrl: './people-item.component.html',
 })
 export class PeopleItemComponent {
-  @Input() people: PeopleList[number] | undefined = undefined;
-  @Input() refreshList: () => void = () => { };
+  @Input() people: PeopleList['content'][number] | undefined = undefined;
+  @Input() refreshList: () => void = () => {
+  };
   detailData: People | undefined = undefined
   isLoading = false
   showForm = false
-  constructor(private httpService: HttpService, private message: NzMessageService , private router : Router) {}
+
+  constructor(private httpService: HttpService, private message: NzMessageService, private router: Router) {
+  }
 
   navigateDetail = () => {
-    this.router.navigate(['/people-detail/',  this.people?.id])
+    this.router.navigate(['/people-detail/', this.people?.id])
   }
+
+  reaction = (reactType: 'LIKE' | 'DISLIKE') => {
+    console.log('react' , reactType)
+    this.httpService.editData('/api/people/react/'+this.people?.id , {reactType}).subscribe({
+      error : value => {
+        console.log(value)
+      }
+    })
+  }
+
   handleDelete = () => {
     this.httpService.deleteData('/api/people/' + this.people?.id).subscribe({
       next: () => {
@@ -63,8 +75,8 @@ export class PeopleItemComponent {
     })
     this.showForm = !this.showForm
   }
-  handleUpdatePeople = (data: People)=> {
-    this.httpService.editData("/api/people/" + this.detailData?.id , data).subscribe(
+  handleUpdatePeople = (data: People) => {
+    this.httpService.editData("/api/people/" + this.detailData?.id, data).subscribe(
       {
         next: () => {
           this.message.success("Update people success")

@@ -1,11 +1,15 @@
 package sy.pv.memefamousperson.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sy.pv.memefamousperson.documents.PeopleDocument;
 import sy.pv.memefamousperson.dto.request.PeopleRequestDto;
+import sy.pv.memefamousperson.dto.request.ReactRequestDto;
+import sy.pv.memefamousperson.dto.request.ReactionPeopleRecord;
 import sy.pv.memefamousperson.dto.response.PeopleListResponseDto;
 import sy.pv.memefamousperson.dto.response.PeopleResponseDto;
 import sy.pv.memefamousperson.services.PeopleService;
@@ -25,7 +29,7 @@ public class PeopleController {
     }
 
     @GetMapping
-    List<PeopleListResponseDto> GetAllPeople(Pageable pageable) {
+    Page<PeopleListResponseDto> GetAllPeople(Pageable pageable) {
         return peopleService.getAllPeople(pageable);
     }
 
@@ -48,5 +52,11 @@ public class PeopleController {
         /* because use form-data we need to use @RequestParam */
     void ImportPerson(@RequestParam("file") MultipartFile file) throws IOException {
         peopleService.importPeople(file);
+    }
+
+    @PutMapping("/react/{peopleId}")
+        /* because use form-data we need to use @RequestParam */
+    ResponseEntity<String> reactPeople(@RequestBody ReactRequestDto records, @PathVariable String peopleId) {
+        return peopleService.reactPeople(records.getReactType(), peopleId);
     }
 }

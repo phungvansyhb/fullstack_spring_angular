@@ -22,10 +22,11 @@
     </ng-template>
   </div>
   <div class="flex justify-between items-end pt-4 ">
-    <div class="font-semibold text-xl ">{{ people?.username }}({{ people?.aka }})</div>
-    <button class="text-blue-500 font-bold cursor-pointer" (click)="navigateDetail()">
-      Chi tiết
-    </button>
+    <div class="font-semibold text-xl" (click)="navigateDetail()">{{ people?.username }}({{ people?.aka }})</div>
+    <div class="space-x-2 *:cursor-pointer ">
+      <span nz-icon nzType="like" nzTheme="outline" class="hover:text-blue-500 hover:scale-110" (click)="reaction('LIKE')"></span>
+      <span nz-icon nzType="dislike" nzTheme="outline" class="hover:text-blue-500 hover:scale-110" (click)="reaction('DISLIKE')"></span>
+    </div>
   </div>
   <nz-modal [(nzVisible)]="showForm" nzTitle="Cập nhật thông tin people" nzCentered (nzOnCancel)="toggleShowForm()" [nzFooter]="modalFooter">
     <ng-container *nzModalContent>

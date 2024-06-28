@@ -1,6 +1,6 @@
 <div class="w-full flex gap-4 justify-end " (click)="toggleCreateForm()">
   <button nz-button nzType="primary" nzSize="large" class="rounded">Create new people</button>
-  <button nz-button nzType="default" nzSize="large" class="ounded">
+  <button nz-button nzType="default" nzSize="large" class="rounded">
     <label for="import-file">Import new people
     </label>
   </button>
@@ -9,13 +9,14 @@
          class="hidden" (change)="handleImport($event)">
 </div>
 <div class="grid grid-cols-4 gap-8 my-8">
-  @for (people of listPeople$ | async; track people.username) {
+  @for (people of listPeople; track people.id) {
     <app-people-item [people]="people" [refreshList]="refreshData"/>
   }
 
 </div>
 <div class="flex justify-center pb-6">
-  <nz-pagination [nzPageIndex]="page" [nzTotal]="50" nzShowSizeChanger [nzPageSize]="size"></nz-pagination>
+  <nz-pagination [nzPageIndex]="page" [nzTotal]="totalElements" nzShowSizeChanger [nzPageSize]="size"
+                 (nzPageIndexChange)="onPageChange($event)" (nzPageSizeChange)="onSizeChange($event)"></nz-pagination>
 </div>
 
 <nz-modal [(nzVisible)]="showCreateForm" nzTitle="Create new people" nzCentered (nzOnCancel)="toggleCreateForm()"

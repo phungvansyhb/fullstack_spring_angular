@@ -1,3 +1,5 @@
+import {PaginationList} from "./PaginationList";
+
 export type People ={
   id : string ,
   username : string ,
@@ -8,4 +10,5 @@ export type People ={
   avatar : string
 }
 
-export type PeopleList = Omit<People, 'description'|'address'|'birthday'>[]
+export type PeopleList = PaginationList<Omit<People, 'description'|'address'|'birthday'>>
+

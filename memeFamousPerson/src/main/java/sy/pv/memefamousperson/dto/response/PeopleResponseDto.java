@@ -21,4 +21,6 @@ public class PeopleResponseDto {
     String birthday;
     String description;
     String avatar;
+    Long like ;
+    Long disLike ;
 }

@@ -12,5 +12,13 @@ services:
       - 27017:27017
     volumes:
       - dbdata:/data/db
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-data:/data
 volumes:
   dbdata:
+  redis-data:
