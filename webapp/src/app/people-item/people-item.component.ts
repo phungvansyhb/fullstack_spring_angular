@@ -44,10 +44,9 @@ export class PeopleItemComponent {
   }
 
   reaction = (reactType: 'LIKE' | 'DISLIKE') => {
-    console.log('react' , reactType)
     this.httpService.editData('/api/people/react/'+this.people?.id , {reactType}).subscribe({
-      error : value => {
-        console.log(value)
+      next : () => {
+        this.refreshList()
       }
     })
   }

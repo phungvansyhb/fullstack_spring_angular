@@ -112,7 +112,7 @@ public class PeopleService {
         peopleRepository.saveAll(peopleList);
     }
 
-    public ResponseEntity<Map<String,String>> reactPeople(ReactionEnum reaction, String id) {
+    public ResponseEntity<Map<String, String>> reactPeople(ReactionEnum reaction, String id) {
         peopleRepository.findById(id).orElseThrow(() -> new Error("People doesn't exist"));
         ReactionPeopleRecord reactionPeopleRecord = new ReactionPeopleRecord();
         ReactionPeopleRecord cachedReactionPeopleRecord = hashOperations.get(HASH_KEY, id);
@@ -132,5 +132,20 @@ public class PeopleService {
         }
         hashOperations.put(HASH_KEY, id, reactionPeopleRecord);
         return new ResponseEntity<>(Map.of("message", "success"), HttpStatus.OK);
+    }
+
+    public void syncDataRedisToMongo() {
+        List<PeopleDocument> peopleDocumentList = new ArrayList<>();
+        hashOperations.keys(HASH_KEY).forEach(id -> {
+            ReactionPeopleRecord reactionPeopleRecord = hashOperations.get(HASH_KEY, id);
+            if(reactionPeopleRecord == null) return;
+            peopleRepository.findById(id).ifPresent(item -> {
+                item.setLike(reactionPeopleRecord.getLike());
+                        item.setDisLike(reactionPeopleRecord.getDislike());
+                        peopleDocumentList.add(item);
+                    }
+            );
+        });
+        peopleRepository.saveAll(peopleDocumentList);
     }
 }

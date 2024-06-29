@@ -1,15 +1,16 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {People} from "../models/people.model";
-import {HttpService} from "../services/http.service";
-import {Observable} from "rxjs";
-import {ActivatedRoute} from "@angular/router";
-import {AsyncPipe} from "@angular/common";
+import { AsyncPipe, NgOptimizedImage, UpperCasePipe } from "@angular/common";
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
+import { People } from "../models/people.model";
+import { HttpService } from "../services/http.service";
 
 @Component({
   selector: 'app-people-detail',
   standalone: true,
   imports: [
-    AsyncPipe
+    AsyncPipe,
+    NgOptimizedImage,
+    UpperCasePipe
   ],
   templateUrl: './people-detail.component.html',
 })
@@ -17,13 +18,20 @@ export class PeopleDetailComponent implements OnInit {
 
   httpService = inject(HttpService)
   route = inject(ActivatedRoute)
+  router = inject(Router)
+  detailData: People | undefined
+  peopleId: string | undefined | null
 
-  detailData$ : Observable<People> | undefined
-  peopleId : string | undefined | null
-
+  navigateHome(){
+    this.router.navigate(['/people'])
+  }
   ngOnInit(): void {
     this.peopleId = this.route.snapshot.paramMap.get('id')
-    this.detailData$ = this.httpService.getData<People>("/api/people/" + this.peopleId)
+    this.httpService.getData<People>("/api/people/" + this.peopleId).subscribe({
+      next: data => {
+        this.detailData = data
+      }
+    })
   }
 
   protected readonly JSON = JSON;

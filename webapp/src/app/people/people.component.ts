@@ -1,14 +1,14 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {NzButtonComponent} from "ng-zorro-antd/button";
-import {NzMessageService} from 'ng-zorro-antd/message';
-import {NzModalComponent, NzModalContentDirective, NzModalModule} from "ng-zorro-antd/modal";
-import {PeopleFormComponent} from "../forms/people-form/people-form.component";
-import {People, PeopleList} from "../models/people.model";
-import {PeopleItemComponent} from "../people-item/people-item.component";
-import {HttpService} from "../services/http.service";
-import {AsyncPipe} from "@angular/common";
-import {NzPaginationModule} from "ng-zorro-antd/pagination";
-import {ActivatedRoute, Router} from "@angular/router";
+import { Component, inject, OnInit } from '@angular/core';
+import { NzButtonComponent } from "ng-zorro-antd/button";
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalComponent, NzModalContentDirective, NzModalModule } from "ng-zorro-antd/modal";
+import { PeopleFormComponent } from "../forms/people-form/people-form.component";
+import { People, PeopleList } from "../models/people.model";
+import { PeopleItemComponent } from "../people-item/people-item.component";
+import { HttpService } from "../services/http.service";
+import { AsyncPipe } from "@angular/common";
+import { NzPaginationModule } from "ng-zorro-antd/pagination";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'app-people',
@@ -38,10 +38,9 @@ export class PeopleComponent implements OnInit {
   totalElements = 0;
 
   handleLoadData = () => {
-    this.httpService.getData<PeopleList>('/api/people', {page: this.page - 1, size: this.size}).subscribe(data => {
+    this.httpService.getData<PeopleList>('/api/people', { page: this.page - 1, size: this.size }).subscribe(data => {
       this.listPeople = data.content
       this.totalElements = data.totalElements
-      console.log(data.content)
     })
   }
 
@@ -54,7 +53,7 @@ export class PeopleComponent implements OnInit {
   onPageChange = (page: number) => {
     if (page !== this.page) {
       this.page = page
-      this.router.navigate([], {queryParams: {page: page}}).then(() =>
+      this.router.navigate([], { queryParams: { page: page } }).then(() =>
         this.handleLoadData()
       )
     }
@@ -63,7 +62,7 @@ export class PeopleComponent implements OnInit {
   onSizeChange = (size: number) => {
     if (size !== this.size) {
       this.size = size
-      this.router.navigate([], {queryParams: {size: size}}).then(() =>
+      this.router.navigate([], { queryParams: { size: size } }).then(() =>
         this.handleLoadData()
       )
     }

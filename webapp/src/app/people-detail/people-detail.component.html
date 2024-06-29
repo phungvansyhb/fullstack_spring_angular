@@ -1,2 +1,44 @@
-<p>people-detail works! {{peopleId}}</p>
-<p>{{JSON.stringify(detailData$ | async)}}</p>
+<section>
+
+  <div class="flex gap-2 my-6 items-center">
+    <span class="text-slate-500 font-bold cursor-pointer hover:text-blue-500 hover:underline" (click)="navigateHome()">Home</span> >
+    <p class="text-base">Tiểu sử nhân vật: <span class="text-xl font-bold">{{ detailData?.username }}</span></p>
+  </div>
+
+  <div class="w-[400px] h-[300px] relative overflow-hidden border rounded-lg shadow mx-auto">
+    @if ( detailData && !!detailData.avatar ) {
+    <img [ngSrc]="detailData.avatar" class="object-contain" alt="avatar" fill>
+    }@else {
+    <img ngSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDN5oYPxAWzDeDqBjmcFv0C-t1N_PwGhJEdQ&s"
+      class="object-contain" alt="avatar" fill>
+    }
+  </div>
+  <div class="my-6 border h-1"></div>
+  <section class="mx-8">
+    <div>
+      <span>Tên nhân vật: </span>
+      <span class="font-bold text-base">{{detailData?.username?.toUpperCase()}}</span>
+    </div>
+    <div>
+      <span>Biệt danh: </span>
+      <span class="font-bold text-base">{{detailData?.aka}}</span>
+    </div>
+    <div>
+      <span>Ngày sinh: </span>
+      <span class="font-bold text-base">{{detailData?.birthday}}</span>
+    </div>
+    <div>
+      <span>Nơi sinh: </span>
+      <span class="font-bold text-base">{{detailData?.address}}</span>
+    </div>
+    <div>
+      <span>Mô tả: </span>
+      <span class="font-bold text-base">{{detailData?.description}}</span>
+    </div>
+  </section>
+
+</section>
+<ng-template #line let-title let-data>
+  <span class="font-bold">{{title}}:</span>
+  <span>{{data}}</span>
+</ng-template>

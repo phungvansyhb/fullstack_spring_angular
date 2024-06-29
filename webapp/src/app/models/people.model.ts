@@ -9,7 +9,7 @@ export type People ={
   description : string
   avatar : string
   like : number
-  dislike : number
+  disLike : number
 }
 
 export type PeopleList = PaginationList<Omit<People, 'description'|'address'|'birthday'>>

@@ -22,7 +22,7 @@
     </ng-template>
   </div>
   <div class="flex justify-between items-end pt-4 ">
-    <div class="font-semibold text-xl" (click)="navigateDetail()">{{ people?.username }}({{ people?.aka }})</div>
+    <div class="font-semibold text-xl cursor-pointer hover:underline hover:text-blue-400" (click)="navigateDetail()">{{ people?.username }}({{ people?.aka }})</div>
     <div class="inline-flex gap-3 *:cursor-pointer ">
       <div class="space-x-1">
         <span>{{ people?.like || 0 }}</span>
@@ -30,7 +30,7 @@
               (click)="reaction('LIKE')"></span>
       </div>
       <div class="space-x-1">
-        <span>{{ people?.dislike || 0 }}</span>
+        <span>{{ people?.disLike || 0 }}</span>
         <span nz-icon nzType="dislike" nzTheme="outline" class="hover:text-blue-500 hover:scale-110"
               (click)="reaction('DISLIKE')"></span>
       </div>
