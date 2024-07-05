@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MailRequestDto {
-    String from;
     String to;
     String subject;
     String content;

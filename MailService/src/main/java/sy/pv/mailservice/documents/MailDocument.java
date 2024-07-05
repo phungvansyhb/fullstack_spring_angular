@@ -1,9 +1,6 @@
 package sy.pv.mailservice.documents;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -14,6 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection =  "mail")
+@Builder
 public class MailDocument {
     @Id
     String id;
@@ -22,4 +20,6 @@ public class MailDocument {
     String subject;
     String content;
     LocalDate createdDate;
+
+
 }
