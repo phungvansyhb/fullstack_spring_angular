@@ -1,7 +1,7 @@
 <section>
-
   <div class="flex gap-2 my-6 items-center">
-    <span class="text-slate-500 font-bold cursor-pointer hover:text-blue-500 hover:underline" (click)="navigateHome()">Home</span> >
+    <span class="text-slate-500 font-bold cursor-pointer hover:text-blue-500 hover:underline"
+      (click)="navigateHome()">Home</span> >
     <p class="text-base">Tiểu sử nhân vật: <span class="text-xl font-bold">{{ detailData?.username }}</span></p>
   </div>
 
@@ -12,6 +12,18 @@
     <img ngSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDN5oYPxAWzDeDqBjmcFv0C-t1N_PwGhJEdQ&s"
       class="object-contain" alt="avatar" fill>
     }
+  </div>
+  <div class="w-full flex justify-center mt-8 gap-6">
+    <div class="space-x-1">
+      <span>{{ detailData?.like || 0 }}</span>
+      <span nz-icon nzType="like" nzTheme="outline" class="hover:text-blue-500 hover:scale-110"
+        (click)="reaction('LIKE')"></span>
+    </div>
+    <div class="space-x-1">
+      <span>{{ detailData?.disLike || 0 }}</span>
+      <span nz-icon nzType="dislike" nzTheme="outline" class="hover:text-blue-500 hover:scale-110"
+        (click)="reaction('DISLIKE')"></span>
+    </div>
   </div>
   <div class="my-6 border h-1"></div>
   <section class="mx-8">
@@ -36,9 +48,18 @@
       <span class="font-bold text-base">{{detailData?.description}}</span>
     </div>
   </section>
+  <div class="w-full flex justify-center">
+    <button class="flex items-center rounded px-4 py-2 bg-blue-600 text-white font-bold border gap-2"
+      (click)="toggleSendMail()"><span nz-icon nzType="send" nzTheme="outline"></span> Send mail</button>
+  </div>
+
+  <nz-modal [(nzVisible)]="showSendMailForm" nzCentered [nzTitle]="'Send mail to @' + detailData?.username"
+    (nzOnCancel)="toggleSendMail()" [nzFooter]="modalfooter">
+    <ng-container *nzModalContent>
+      <mail-form />
+    </ng-container>
+  </nz-modal>
+
+  <ng-template #modalfooter></ng-template>
 
 </section>
-<ng-template #line let-title let-data>
-  <span class="font-bold">{{title}}:</span>
-  <span>{{data}}</span>
-</ng-template>

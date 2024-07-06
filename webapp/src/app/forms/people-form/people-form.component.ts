@@ -10,7 +10,6 @@ import { People } from "../../models/people.model";
   templateUrl: './people-form.component.html',
 })
 
-
 export class PeopleFormComponent {
   @Input() initValue: People | undefined = undefined
   @Input() handleOk: (data: Partial<People>) => void = () => { }
